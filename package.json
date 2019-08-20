@@ -2,7 +2,10 @@
   "name": "hic-hac-hoe",
   "version": "1.0.0",
   "description": "tic-tac-toe in the browser",
-  "main": "index.js",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/drewccannedy/hic-hac-hoe.git"
