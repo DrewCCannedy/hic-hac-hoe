@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Hic-Hac-Hoe</title>
+  <link rel="stylesheet" href="/main.css">
+</head>
+
+<body>
+  <h1>Hic-Hac-Hoe</h1>
+  <h2 id=playerStatus>loading...</h2>
+  <h2 id=playerTurn>loading...</h2>
+  <table id="board">
+    <tr>
+      <td id='1' onClick='update(1)'></td>
+      <td id='2' onClick='update(2)'></td>
+      <td id='3' onClick='update(3)'></td>
+    </tr>
+    <tr>
+      <td id='4' onClick='update(4)'></td>
+      <td id='5' onClick='update(5)'></td>
+      <td id='6' onClick='update(6)'></td>
+    </tr>
+    <tr></tr>
+      <td id='7' onClick='update(7)'></td>
+      <td id='8' onClick='update(8)'></td>
+      <td id='9' onClick='update(9)'></td>
+    </tr>
+  </table>
+  <button type="button" onClick='reset()'>Reset</button>
+
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io()
+
+  socket.on('player', (playerStatus) => {
+    document.getElementById('playerStatus').textContent = playerStatus
+  })
+
+  socket.on('update', (board, player1Turn) => {
+    console.log('Processing Update')
+
+    for(let i = 0; i < board.length; i++) {
+      let td = document.getElementById((i + 1).toString())
+      if (!td.hasChildNodes() && board[i] != null) {
+        td.setAttribute('class', 'set')
+        let pic = null;
+        if (board[i] === 'o') {
+          pic = 'o.png'
+        } else if (board[i] === 'h') {
+          pic = 'h.jpg'
+        }
+        let img = document.createElement('img')
+        img.setAttribute('src', pic)
+        img.setAttribute('alt', pic)
+        td.appendChild(img)
+      } else if (td.hasChildNodes() && board[i] == null) {
+        td.setAttribute('class', "")
+        td.removeChild(td.childNodes[0])
+      }
+    }
+    let player = null
+    if (player1Turn) {
+      player = '1'
+    } else {
+      player = '2'
+    }
+    document.getElementById('playerTurn').textContent = `It is player${player}'s turn` 
+  })
+
+  const update = (cell) => {
+    console.log('Updating Server')
+    socket.emit('update', cell)
+  }
+
+  const reset = () => {
+    console.log('Resetting Game')
+    socket.emit('reset')
+  }
+</script>
+
+</html>

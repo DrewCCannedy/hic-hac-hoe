@@ -1,0 +1,50 @@
+table {
+  width: 33%;
+  border-collapse: collapse;
+}
+
+img {
+  max-width:75%;
+  max-height:75%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td {
+  width: 33.333%;
+  border: 6px solid #222;
+}
+
+td::after {
+  content: "";
+  display: block;
+  margin-top: 100%;
+}
+
+td.set::after {
+  content: none;
+  display: none;
+}
+
+td {
+  border: 6px solid #222;
+}
+
+td:first-of-type {
+  border-left-color: transparent;
+  border-top-color: transparent;
+}
+
+td:nth-of-type(2) {
+  border-top-color: transparent;
+}
+
+td:nth-of-type(3) {
+  border-right-color: transparent;
+  border-top-color: transparent;
+}
+
+tr:nth-of-type(3) td {
+  border-bottom-color: transparent;
+}
